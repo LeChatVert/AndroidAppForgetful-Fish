@@ -1,31 +1,48 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <player-panel class="envers"></player-panel>
-      <menu-content></menu-content>
-      <player-panel></player-panel>
+      <player-panel class="envers" :etat="joueur1"></player-panel>
+      <menu-content @reset="resetCompteurs" :settingJ1="joueur1" :settingJ2="joueur2"></menu-content>
+      <player-panel :etat="joueur2"></player-panel>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonButtons, IonToolbar, IonMenu, IonMenuButton } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonMenu, IonMenuButton } from '@ionic/vue';
 import PlayerPanel from './PlayerPanel.vue';
 import MenuContent from './MenuContent.vue';
 import { defineComponent } from 'vue';
   
+const etatInitialJoueurs:Object = {
+  nom: "Dan",
+  compteur: 5,
+  pointsDeVie: 5,
+}
+
 export default defineComponent({
   components: {
-    IonButtons,
     IonContent,
-    IonHeader,
-    IonMenu,
-    IonMenuButton,
     IonPage,
-    IonTitle,
-    IonToolbar,
     PlayerPanel,
     MenuContent,
+  },
+  provide: {
+    sons: { wave:'wave'}
+  },
+  data() {
+    const joueur1 = Object.assign({}, etatInitialJoueurs);
+    const joueur2 = Object.assign({}, etatInitialJoueurs);
+    return {
+      joueur1,
+      joueur2,
+    }
+  },
+  methods: {
+    resetCompteurs() {
+      this.joueur1.compteur = etatInitialJoueurs.compteur;
+      this.joueur2.compteur = etatInitialJoueurs.compteur;
+    }
   }
 });
 
