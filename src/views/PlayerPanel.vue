@@ -1,7 +1,6 @@
 <template>
   <ion-card>
     <ion-card-header>
-      <!-- TODO: Insérer un nom de joueur -->
       <ion-card-title>{{ etat.nom }}</ion-card-title>
     </ion-card-header>
 
@@ -21,7 +20,7 @@
   
   <!-- TODO: au clic, son -->
   <script lang="ts">
-    import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
+    import { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
     import { addCircle, heartOutline, removeCircle, heart } from 'ionicons/icons';
     import { defineComponent } from 'vue';
   
@@ -29,10 +28,11 @@
     const coeurVide:string = heartOutline;
 
     export default defineComponent({
-      components: { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon },
+      components: { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon },
       setup() {
         return { addCircle, heartOutline, removeCircle, heart };
       },
+      inject: ['dataAudio'],
       props: {
         etat: {
           type: Object,
@@ -58,17 +58,31 @@
         perdUnPv(event:Event) {
           if(0 < this.etat.compteur) {
             this.etat.compteur--;
+            this.dataAudio.play({
+              assetId: 'bloup'
+            });
+          }
+          if(0 == this.etat.compteur) {
+            this.dataAudio.play({
+              assetId: 'splash'
+            });
           }
         },
 
         gagneUnPv(event:Event) {
           if(this.etat.compteur < this.etat.pointsDeVie) {
             this.etat.compteur++;
+            this.dataAudio.play({
+              assetId: 'bloup'
+            });
           }
         },
 
         reset() {
           this.etat.compteur = this.etat.pointsDeVie;
+          this.dataAudio.play({
+            assetId: 'wave'
+          });
         }
       }
     });

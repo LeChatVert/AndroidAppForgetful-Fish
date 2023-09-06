@@ -1,19 +1,19 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content class="ion-padding">
       <player-panel class="envers" :etat="joueur1"></player-panel>
-      <menu-content @reset="resetCompteurs" :settingJ1="joueur1" :settingJ2="joueur2"></menu-content>
+      <menu-content @reset="resetCompteurs"></menu-content>
       <player-panel :etat="joueur2"></player-panel>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonMenu, IonMenuButton } from '@ionic/vue';
+import { IonContent, IonPage } from '@ionic/vue';
 import PlayerPanel from './PlayerPanel.vue';
 import MenuContent from './MenuContent.vue';
 import { defineComponent } from 'vue';
-  
+
 const etatInitialJoueurs:Object = {
   nom: "Dan",
   compteur: 5,
@@ -27,12 +27,15 @@ export default defineComponent({
     PlayerPanel,
     MenuContent,
   },
-  provide: {
-    sons: { wave:'wave'}
-  },
+  inject: ['dataAudio'],
   data() {
+    this.dataAudio.loop({
+      assetId: 'musicDan'
+    });
+
     const joueur1 = Object.assign({}, etatInitialJoueurs);
     const joueur2 = Object.assign({}, etatInitialJoueurs);
+
     return {
       joueur1,
       joueur2,

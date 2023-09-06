@@ -19,30 +19,23 @@
         <!--TODO: config des noms des joueurs-->
         <ion-list>
           <ion-item>
-            <ion-toggle :enableOnOffLabels="true" @ion-change="switchMusicOn">Musique</ion-toggle>
+            <ion-toggle :enableOnOffLabels="true" @ion-change="switchMusicOn" :checked="true">Musique</ion-toggle>
           </ion-item>
           <ion-item>
-            <ion-toggle :enableOnOffLabels="true" @ion-change="switchSongOn">Sons</ion-toggle>
+            <ion-toggle :enableOnOffLabels="true" @ion-change="switchSongOn" :checked="true">Sons</ion-toggle>
           </ion-item>
           <ion-item>
-            Crédits
             <ion-list :inset="true">
               <ion-item>
-                <ion-label>Pokémon Yellow</ion-label>
+                <ion-label>Crédits</ion-label>
               </ion-item>
-              <ion-item>
-                <ion-label>Mega Man X</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-label>The Legend of Zelda</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-label>Pac-Man</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-label>Super Mario World</ion-label>
+              <ion-item v-for="membre in equipe">
+                <ion-label>{{ membre }}</ion-label>
               </ion-item>
             </ion-list>
+          </ion-item>
+          <ion-item>
+            {{ licence }}
           </ion-item>
         </ion-list>
       </ion-content>
@@ -53,7 +46,8 @@
     import { IonContent, IonHeader, IonMenu, IonMenuButton, IonTitle, IonToolbar, IonItem, IonLabel, IonList, IonToggle, IonButton, IonIcon, IonButtons } from '@ionic/vue';
     import { refreshOutline } from 'ionicons/icons';
     import { defineComponent } from 'vue';
-  
+    import credit from '@/credits.json'
+
     export default defineComponent({
       components: {
         IonContent,
@@ -66,12 +60,47 @@
       setup() {
         return { refreshOutline };
       },
+      inject: ['dataAudio'],
+      data() {
+        return {
+          licence: credit.licence,
+          equipe: credit.equipe
+        }
+      },
       methods: {
-        switchMusicOn() {
-          console.log("music on");
+        switchMusicOn(event:Event) {
+          if(event.target.checked) {
+            this.dataAudio.resume({
+              assetId: 'musicDan'
+            });
+          } else {
+            this.dataAudio.pause({
+              assetId: 'musicDan'
+            });
+          }
         },
-        switchSongOn() {
-          console.log("sons on");
+        switchSongOn(event:Event) {
+          const songsNames:Array<string> = [
+            "bloup",
+            "splash",
+            "wave",
+          ]
+
+          if(event.target.checked) {
+            for (let songName of songsNames) {
+              this.dataAudio.setVolume({
+                assetId: songName,
+                volume: 1.0
+              });
+            };
+          } else {
+            for (let songName of songsNames) {
+              this.dataAudio.setVolume({
+                assetId: songName,
+                volume: 0.0
+              });
+            };
+          }
         }
       },
       emits: ['reset']
@@ -83,6 +112,5 @@
 ion-button {
   --color: dark;
 }
-
 
 </style>
