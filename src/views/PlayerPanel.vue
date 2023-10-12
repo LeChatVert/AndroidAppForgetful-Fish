@@ -63,17 +63,17 @@
           if(0 < this.etat.compteur) {
             this.etat.compteur--;
             
-            this.audioManager.sounds[0].bloup.play();
+            this.audioManager.runSound(0, "bloup");
           }
           if(0 == this.etat.compteur) {
-            this.audioManager.sounds[0].splash.play();
+            this.audioManager.runSound(0, "splash");
           }
         },
 
         gagneUnPv() {
           if(this.etat.compteur < this.etat.pointsDeVie) {
             this.etat.compteur++;
-            this.audioManager.sounds[0].bloup.play();
+            this.audioManager.runSound(0, "bloup");
           }
         },
       }

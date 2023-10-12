@@ -19,10 +19,10 @@
         <!--TODO: config des noms des joueurs-->
         <ion-list>
           <ion-item>
-            <ion-toggle :enableOnOffLabels="true" @ion-change="switchMusicOn" :checked="true">Musique</ion-toggle>
+            <ion-toggle :enableOnOffLabels="true" @ion-change="$emit('switchMusicOn',$event.target.checked)" :checked="true">Musique</ion-toggle>
           </ion-item>
           <ion-item>
-            <ion-toggle :enableOnOffLabels="true" @ion-change="$emit('switchSongOn')" :checked="true">Sons</ion-toggle>
+            <ion-toggle :enableOnOffLabels="true" @ion-change="$emit('switchSongOn',$event.target.checked)" :checked="true">Sons</ion-toggle>
           </ion-item>
           <ion-item>
             <ion-list :inset="true">
@@ -60,21 +60,12 @@
       setup() {
         return { refreshOutline };
       },
-      emits: ['reset', 'resume', 'pause', 'switchSongOn'],
+      emits: ['reset', 'switchSongOn', 'switchMusicOn'],
       data() {
         return {
           licence: credit.licence,
           equipe: credit.equipe
         }
-      },
-      methods: {
-        switchMusicOn(event:Event) {
-          if(event.target.checked) {
-            this.$emit('resume');
-          } else {
-            this.$emit('pause');
-          }
-        },
       },
     });
   </script>

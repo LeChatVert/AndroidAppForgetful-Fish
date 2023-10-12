@@ -27,14 +27,6 @@ export default class AudioManager {
         this._isSettingSoundOn = true;
     }
 
-    get music() {
-        return this._music;
-    }
-
-    get sounds() {
-        return this._sounds;
-    }
-
     get isSettingSoundOn() {
         return this._isSettingSoundOn;
     }
@@ -44,7 +36,7 @@ export default class AudioManager {
     }
 
     buildSounds() {
-        this.sounds.push({
+        this._sounds.push({
             bloup: new Sound("bloup", ++this._channel),
             splash: new Sound("splash", ++this._channel),
             wave: new Sound("wave", ++this._channel),
@@ -52,20 +44,20 @@ export default class AudioManager {
     }
 
     runMusic() {
-        this.music.loop();
+        this._music.loop();
     }
 
     pauseMusic() {
-        this.music.pause();
+        this._music.pause();
     }
 
     resumeMusic() {
-        this.music.resume();
+        this._music.resume();
     }
 
     runSound(set:number, soundName:string) {
         if(this.isSettingSoundOn) {
-            this.sounds[set][soundName].play();
+            this._sounds[set][soundName].play();
         }
     }
 }

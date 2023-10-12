@@ -2,7 +2,7 @@
   <ion-page>
     <ion-content class="ion-padding">
       <player-panel class="envers" :etat="joueur1" :audio-manager="audioManager"></player-panel>
-      <menu-content @reset="resetCompteurs" @pause="pauseMusic" @resume="resumeMusic" @switchSongOn="switchSongOn"></menu-content>
+      <menu-content @reset="resetCompteurs" @switchSongOn="switchSongOn" @switchMusicOn="switchMusicOn"></menu-content>
       <player-panel :etat="joueur2" :audio-manager="audioManager"></player-panel>
     </ion-content>
   </ion-page>
@@ -54,20 +54,19 @@ export default defineComponent({
     resetCompteurs() {
       this.joueur1.compteur = etatInitialJoueurs.compteur;
       this.joueur2.compteur = etatInitialJoueurs.compteur;
-      this.audioManager.sounds[0].wave.play();
-    },
-    pauseMusic() {
-      this.audioManager.pauseMusic();
-    },
-    resumeMusic() {
-      this.audioManager.resumeMusic();
+      this.audioManager.runSound(0, "wave");
     },
     
-    switchSongOn(event:Event) {
-      if(event.target)
-        this.audioManager.isSettingSoundOn = event.target.checked;
-      else
-        throw "switchSongOn : target null dans event = " + event;
+    switchMusicOn(isChecked:boolean) {
+      if(isChecked){
+        this.audioManager.resumeMusic();
+      } else {
+        this.audioManager.pauseMusic();
+      }
+    },
+    
+    switchSongOn(isChecked:boolean) {
+      this.audioManager.isSettingSoundOn = isChecked;
     }
   }
 });
