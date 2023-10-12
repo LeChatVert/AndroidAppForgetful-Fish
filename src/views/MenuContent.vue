@@ -22,7 +22,7 @@
             <ion-toggle :enableOnOffLabels="true" @ion-change="switchMusicOn" :checked="true">Musique</ion-toggle>
           </ion-item>
           <ion-item>
-            <ion-toggle :enableOnOffLabels="true" @ion-change="switchSongOn" :checked="true">Sons</ion-toggle>
+            <ion-toggle :enableOnOffLabels="true" @ion-change="$emit('switchSongOn')" :checked="true">Sons</ion-toggle>
           </ion-item>
           <ion-item>
             <ion-list :inset="true">
@@ -60,7 +60,7 @@
       setup() {
         return { refreshOutline };
       },
-      inject: ['dataAudio'],
+      emits: ['reset', 'resume', 'pause', 'switchSongOn'],
       data() {
         return {
           licence: credit.licence,
@@ -70,40 +70,12 @@
       methods: {
         switchMusicOn(event:Event) {
           if(event.target.checked) {
-            this.dataAudio.resume({
-              assetId: 'musicDan'
-            });
+            this.$emit('resume');
           } else {
-            this.dataAudio.pause({
-              assetId: 'musicDan'
-            });
+            this.$emit('pause');
           }
         },
-        switchSongOn(event:Event) {
-          const songsNames:Array<string> = [
-            "bloup",
-            "splash",
-            "wave",
-          ]
-
-          if(event.target.checked) {
-            for (let songName of songsNames) {
-              this.dataAudio.setVolume({
-                assetId: songName,
-                volume: 1.0
-              });
-            };
-          } else {
-            for (let songName of songsNames) {
-              this.dataAudio.setVolume({
-                assetId: songName,
-                volume: 0.0
-              });
-            };
-          }
-        }
       },
-      emits: ['reset']
     });
   </script>
 

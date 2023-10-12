@@ -1,24 +1,33 @@
 <template>
   <ion-page>
     <ion-content class="ion-padding">
-      <player-panel class="envers" :etat="joueur1"></player-panel>
-      <menu-content @reset="resetCompteurs"></menu-content>
-      <player-panel :etat="joueur2"></player-panel>
+      <player-panel class="envers" :etat="joueur1" :audio-manager="audioManager"></player-panel>
+      <menu-content @reset="resetCompteurs" @pause="pauseMusic" @resume="resumeMusic" @switchSongOn="switchSongOn"></menu-content>
+      <player-panel :etat="joueur2" :audio-manager="audioManager"></player-panel>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage } from '@ionic/vue';
+import { IonContent, IonPage, IonCol, IonGrid, IonRow } from '@ionic/vue';
 import PlayerPanel from './PlayerPanel.vue';
 import MenuContent from './MenuContent.vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
-const etatInitialJoueurs:Object = {
+import AudioManager from '@/sounddesign/AudioManager';
+
+type JoueurAttributes = {
+  [key: string]: string|number,
+  nom: string,
+  compteur: number,
+  pointsDeVie: number,
+};
+
+const etatInitialJoueurs:JoueurAttributes = {
   nom: "Dan",
   compteur: 5,
   pointsDeVie: 5,
-}
+};
 
 export default defineComponent({
   components: {
@@ -27,24 +36,38 @@ export default defineComponent({
     PlayerPanel,
     MenuContent,
   },
-  inject: ['dataAudio'],
   data() {
-    this.dataAudio.loop({
-      assetId: 'musicDan'
-    });
+    let audioManager:AudioManager = new AudioManager();
+    audioManager.runMusic();
+    audioManager.buildSounds();
 
     const joueur1 = Object.assign({}, etatInitialJoueurs);
     const joueur2 = Object.assign({}, etatInitialJoueurs);
-
+ 
     return {
       joueur1,
       joueur2,
+      audioManager,
     }
   },
   methods: {
     resetCompteurs() {
       this.joueur1.compteur = etatInitialJoueurs.compteur;
       this.joueur2.compteur = etatInitialJoueurs.compteur;
+      this.audioManager.sounds[0].wave.play();
+    },
+    pauseMusic() {
+      this.audioManager.pauseMusic();
+    },
+    resumeMusic() {
+      this.audioManager.resumeMusic();
+    },
+    
+    switchSongOn(event:Event) {
+      if(event.target)
+        this.audioManager.isSettingSoundOn = event.target.checked;
+      else
+        throw "switchSongOn : target null dans event = " + event;
     }
   }
 });

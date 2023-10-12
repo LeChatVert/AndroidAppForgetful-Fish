@@ -20,6 +20,7 @@
   
   <!-- TODO: au clic, son -->
   <script lang="ts">
+    import AudioManager from '@/sounddesign/AudioManager';
     import { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
     import { addCircle, heartOutline, removeCircle, heart } from 'ionicons/icons';
     import { defineComponent } from 'vue';
@@ -32,10 +33,13 @@
       setup() {
         return { addCircle, heartOutline, removeCircle, heart };
       },
-      inject: ['dataAudio'],
       props: {
         etat: {
           type: Object,
+          required: true,
+        },
+        audioManager: {
+          type: AudioManager,
           required: true,
         }
       },
@@ -55,35 +59,23 @@
         }
       },
       methods: {
-        perdUnPv(event:Event) {
+        perdUnPv() {
           if(0 < this.etat.compteur) {
             this.etat.compteur--;
-            this.dataAudio.play({
-              assetId: 'bloup'
-            });
+            
+            this.audioManager.sounds[0].bloup.play();
           }
           if(0 == this.etat.compteur) {
-            this.dataAudio.play({
-              assetId: 'splash'
-            });
+            this.audioManager.sounds[0].splash.play();
           }
         },
 
-        gagneUnPv(event:Event) {
+        gagneUnPv() {
           if(this.etat.compteur < this.etat.pointsDeVie) {
             this.etat.compteur++;
-            this.dataAudio.play({
-              assetId: 'bloup'
-            });
+            this.audioManager.sounds[0].bloup.play();
           }
         },
-
-        reset() {
-          this.etat.compteur = this.etat.pointsDeVie;
-          this.dataAudio.play({
-            assetId: 'wave'
-          });
-        }
       }
     });
   </script>
