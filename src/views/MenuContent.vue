@@ -1,6 +1,6 @@
 <template>
   <!-- MEGA IMPORTANT : c'est l'id qui fait le lien entre le ion-menu-button et le ion-menu -->
-    <ion-toolbar color="light" id="barre-transverse-content">
+    <ion-toolbar class="barreMenu" color="light" id="barre-transverse-content">
       <!-- TODO : Sortir dans un autre composant -->
       <ion-button fill="clear" shape="round" id="reset-counters" slot="start" @click="$emit('reset')">
         <ion-icon slot="icon-only" :icon="refreshOutline"></ion-icon>
@@ -74,6 +74,10 @@
 
 ion-button {
   --color: dark;
+}
+
+.barreMenu {
+  align-self: center;
 }
 
 </style>

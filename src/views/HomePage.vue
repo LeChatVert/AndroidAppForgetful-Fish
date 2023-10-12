@@ -1,10 +1,14 @@
 <template>
-  <ion-page>
-    <ion-content class="ion-padding">
-      <player-panel class="envers" :etat="joueur1" :audio-manager="audioManager"></player-panel>
-      <menu-content @reset="resetCompteurs" @switchSongOn="switchSongOn" @switchMusicOn="switchMusicOn"></menu-content>
-      <player-panel :etat="joueur2" :audio-manager="audioManager"></player-panel>
-    </ion-content>
+  <ion-page class="main noPadding">
+      <ion-grid class="noPadding">
+        <ion-row>
+          <ion-col class="noPadding">
+            <player-panel class="envers panelJoueurUn" :etat="joueur1" :audio-manager="audioManager"></player-panel>
+            <menu-content @reset="resetCompteurs" @switchSongOn="switchSongOn" @switchMusicOn="switchMusicOn"></menu-content>
+            <player-panel class="panelJoueurDeux" :etat="joueur2" :audio-manager="audioManager"></player-panel>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
   </ion-page>
 </template>
 
@@ -34,7 +38,7 @@ export default defineComponent({
     IonContent,
     IonPage,
     PlayerPanel,
-    MenuContent,
+    MenuContent, IonCol, IonGrid, IonRow,
   },
   data() {
     let audioManager:AudioManager = new AudioManager();
@@ -74,31 +78,33 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+/*TODO: créer des classes spécifique pour chaque cas particulier */
+.main {
+    background: url('/dandan_bg.webp');
+    background-position: center;
+    background-repeat:no-repeat;
+  }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+  ion-grid {
+    margin-inline: revert;
+  }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
+  ion-row {
+    height: 100%;
+  }
 
-#container a {
-  text-decoration: none;
-}
+  ion-col {
+    display: grid;
+  }
+  
+  .panelJoueurUn {
+    align-self: end;
+  }
+  .panelJoueurDeux {
+    align-self: start;
+  }
+
+  .noPadding {
+    padding: 0px;
+  }
 </style>
