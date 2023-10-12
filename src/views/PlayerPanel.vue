@@ -82,20 +82,21 @@
   <!-- TODO : faire des classes avec des couleurs selon les thèmes du CSS principal -->
   <style scoped>
     ion-card {
-      --background: #000;
-      --color: #9efff0;
+      --background: #D9C5A0A6;
     }
   
     ion-card-title {
-      --color: #52ffe4;
+      --color: #3E594A;
     }
   
-    ion-card-subtitle {
-      --color: #d1fff8;
+    ion-button {
+      --color: #041E40;
     }
 
-    ion-button {
-      --color: #9efff0;
+    ion-card-content {
+      color: #402837;
+      font-size: 2em;
+      text-align: center;
     }
 
     /* Retourne l'élément à 180° si la classe est appliqué dessus */

@@ -1,6 +1,6 @@
 <template>
   <!-- MEGA IMPORTANT : c'est l'id qui fait le lien entre le ion-menu-button et le ion-menu -->
-    <ion-toolbar class="barreMenu" color="light" id="barre-transverse-content">
+    <ion-toolbar class="barreMenu" id="barre-transverse-content">
       <!-- TODO : Sortir dans un autre composant -->
       <ion-button fill="clear" shape="round" id="reset-counters" slot="start" @click="$emit('reset')">
         <ion-icon slot="icon-only" :icon="refreshOutline"></ion-icon>
@@ -15,7 +15,7 @@
           <ion-title>Menu Content</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding" color="light">
+      <ion-content class="ion-padding">
         <!--TODO: config des noms des joueurs-->
         <ion-list>
           <ion-item>
@@ -73,11 +73,21 @@
 <style scoped>
 
 ion-button {
-  --color: dark;
+  --background: #3E594A;
+  --color: #FFFFFF;
+}
+
+ion-menu::part(backdrop) {
+  background-color: #A69576;
+}
+
+/*Suggestion:
+ajouter une fine ombre portée pour la détacher visuellement du fond*/
+ion-toolbar {
+  --background: #3E594A;
 }
 
 .barreMenu {
   align-self: center;
 }
-
 </style>
