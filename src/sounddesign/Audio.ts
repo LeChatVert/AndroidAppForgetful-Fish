@@ -2,27 +2,38 @@
 import {NativeAudio} from '@capgo/native-audio'
 
 export default abstract class Audio {
+    protected assetId:string;
     protected audioName:string;
+    protected channel:number;
+    protected pathComplete:string;
+    protected _isPreload:boolean;
     readonly _defaultPath:string = "assets/sounds/";
     readonly _logError:Array<Object> = []
     
     constructor(audioName:string, channel:number, path:string) {
-        const pathComplete = this._defaultPath + path;
-        this.audioName = audioName + channel;
-        //TODO: sortir le preload du constructeur pour pouvoir faire un await et ne plus avoir le premier message du preload
-        NativeAudio.preload({
-            assetId: this.audioName,
-            assetPath: `${pathComplete}${audioName}.mp3`,
-            audioChannelNum: channel,
-            isUrl: false
-        }).then(() => {
-            console.log("plop");
-            //TODO: mettre quelque chose pour savoir facilement si l'élément a été preload ou pas
-        }).catch((error) => {
-            // à priori rien de particulier à faire dans ce cas.
-            // On log les erreurs au cas où.
-            this._logError.push(error);
-        });
+        this._isPreload = false;
+        this.assetId = audioName + channel;
+        this.audioName = audioName;
+        this.channel = channel;
+        this.pathComplete = this._defaultPath + path;
     }
 
+    get isPreload() {
+        return this._isPreload;
+    }
+
+    async preload() {
+        this._isPreload = await NativeAudio.preload({
+            assetId: this.assetId,
+            assetPath: `${this.pathComplete}${this.audioName}.mp3`,
+            audioChannelNum: this.channel,
+            isUrl: false
+        }).then(() => {
+            return true;
+        }).catch((error) => {
+            //TODO : gérer les log des erreurs
+            this._logError.push(error);
+            return this._isPreload;
+        });
+    }
 }

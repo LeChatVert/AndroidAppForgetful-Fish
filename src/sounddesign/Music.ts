@@ -9,19 +9,19 @@ export default class Music extends Audio {
 
     loop() {
         NativeAudio.loop({
-            assetId: this.audioName
+            assetId: this.assetId
         })
     }
 
     pause() {
         NativeAudio.pause({
-            assetId: this.audioName
+            assetId: this.assetId
         })
     }
 
     resume() {
         NativeAudio.resume({
-            assetId: this.audioName
+            assetId: this.assetId
         })
     }
 

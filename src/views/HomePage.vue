@@ -42,8 +42,7 @@ export default defineComponent({
   },
   data() {
     let audioManager:AudioManager = new AudioManager();
-    audioManager.runMusic();
-    audioManager.buildSounds();
+    audioManager.buildSounds().then(() => audioManager.runMusic());
 
     const joueur1 = Object.assign({}, etatInitialJoueurs);
     const joueur2 = Object.assign({}, etatInitialJoueurs);

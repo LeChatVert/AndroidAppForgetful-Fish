@@ -7,10 +7,16 @@ export default class Sound extends Audio {
         super(audioName, channel, 'soundEffects/');
     }
 
-    play() {
-        NativeAudio.play({
-            assetId: this.audioName
+    async play() {
+        const soundIsItPlaying = await NativeAudio.isPlaying({
+            assetId: this.assetId
         });
+        
+        if(!soundIsItPlaying.isPlaying){
+            NativeAudio.play({
+                assetId: this.assetId
+            });
+        }
     }
 
 }

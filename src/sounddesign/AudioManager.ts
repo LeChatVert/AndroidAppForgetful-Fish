@@ -24,6 +24,11 @@ export default class AudioManager {
         this._music = new Music("musicDan", ++this._channel);
         /* Sons d'ambiance */
         this._sounds = [];
+        this._sounds.push({
+            bloup: new Sound("bloup", ++this._channel),
+            splash: new Sound("splash", ++this._channel),
+            wave: new Sound("wave", ++this._channel),
+        });
         this._isSettingSoundOn = true;
     }
 
@@ -35,16 +40,17 @@ export default class AudioManager {
         this._isSettingSoundOn = toggle;
     }
 
-    buildSounds() {
-        this._sounds.push({
-            bloup: new Sound("bloup", ++this._channel),
-            splash: new Sound("splash", ++this._channel),
-            wave: new Sound("wave", ++this._channel),
-        });
+    async buildSounds() {
+        await this._music.preload();
+        await this._sounds[0].bloup.preload();
+        await this._sounds[0].splash.preload();
+        await this._sounds[0].wave.preload();
     }
 
     runMusic() {
-        this._music.loop();
+        if(this._music.isPreload){
+            this._music.loop();
+        }
     }
 
     pauseMusic() {
