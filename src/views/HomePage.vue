@@ -16,7 +16,7 @@
 import { IonContent, IonPage, IonCol, IonGrid, IonRow } from '@ionic/vue';
 import PlayerPanel from './PlayerPanel.vue';
 import MenuContent from './MenuContent.vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 
 import AudioManager from '@/sounddesign/AudioManager';
 

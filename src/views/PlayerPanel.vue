@@ -20,7 +20,7 @@
 
   <script lang="ts">
     import AudioManager from '@/sounddesign/AudioManager';
-    import { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
+    import { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
     import { addCircle, heartOutline, removeCircle, heart } from 'ionicons/icons';
     import { defineComponent } from 'vue';
   
@@ -28,7 +28,7 @@
     const coeurVide:string = heartOutline;
 
     export default defineComponent({
-      components: { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon },
+      components: { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon, AudioManager },
       setup() {
         return { addCircle, heartOutline, removeCircle, heart };
       },
