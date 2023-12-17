@@ -17,8 +17,7 @@
     </ion-card-content>
   </ion-card>
 </template>
-  
-  <!-- TODO: au clic, son -->
+
   <script lang="ts">
     import AudioManager from '@/sounddesign/AudioManager';
     import { IonContent,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon } from '@ionic/vue';
